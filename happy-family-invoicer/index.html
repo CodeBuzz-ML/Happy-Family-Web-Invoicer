@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Invoice Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="firebase-config.js"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+  <div class="bg-white shadow-lg rounded-lg p-6 w-96">
+    <h2 class="text-2xl font-bold text-center text-blue-600">Happy Family Invoicer</h2>
+    
+    <div class="mt-4">
+      <label class="block text-sm font-medium text-gray-700">Patient Name</label>
+      <input type="text" id="patientName" class="w-full p-2 border rounded-md focus:ring focus:ring-blue-300">
+    </div>
+
+    <div class="mt-2">
+      <label class="block text-sm font-medium text-gray-700">Invoice ID</label>
+      <input type="text" id="invoiceId" class="w-full p-2 border rounded-md focus:ring focus:ring-blue-300" value="INV-12345">
+    </div>
+
+    <div class="mt-2">
+      <label class="block text-sm font-medium text-gray-700">Medicine Charges</label>
+      <input type="number" id="medicineCharges" class="w-full p-2 border rounded-md focus:ring focus:ring-blue-300">
+    </div>
+
+    <div class="mt-2">
+      <label class="block text-sm font-medium text-gray-700">Consultation Charges</label>
+      <input type="number" id="consultationCharges" class="w-full p-2 border rounded-md focus:ring focus:ring-blue-300">
+    </div>
+
+    <div class="mt-2">
+      <label class="block text-sm font-medium text-gray-700">Extra Charges (Optional)</label>
+      <input type="number" id="extraCharges" class="w-full p-2 border rounded-md focus:ring focus:ring-blue-300">
+    </div>
+
+    <button onclick="generateInvoice()" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+      Generate Invoice
+    </button>
+
+    <a href="invoice-history.html" class="mt-2 block text-center text-blue-500 hover:underline">View Invoice History</a>
+  </div>
+
+  <script>
+function generateInvoice() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  convertToBase64("images/clinic-logo.png", function (base64Image) {
+    if (base64Image) {
+      doc.addImage(base64Image, "PNG", 10, 10, 50, 20); // Add logo
+    } else {
+      console.warn("Logo not found, proceeding without it.");
+    }
+
+    doc.setFontSize(16);
+    doc.text("Happy Family Clinic", 80, 20);
+
+    // Invoice Details
+    doc.setFontSize(12);
+    doc.text("Invoice ID: 12345", 10, 40);
+    doc.text("Patient Name: John Doe", 10, 50);
+
+    doc.line(10, 55, 200, 55);
+    doc.text("Medicine Charges: ₹500", 10, 65);
+    doc.text("Consultation Charges: ₹200", 10, 75);
+    doc.line(10, 90, 200, 90);
+    doc.setFontSize(14);
+    doc.text("Grand Total: ₹700", 10, 100);
+
+    doc.save("Invoice.pdf"); // Save PDF
+  });
+}
+
+  </script>
+
+</body>
+</html>

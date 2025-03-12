@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Invoice History</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+  <h1>Past Invoices</h1>
+  <ul id="invoiceList"></ul>
+
+  <script>
+    function loadInvoices() {
+      const userId = auth.currentUser.uid;
+      db.collection("users").doc(userId).collection("invoices")
+        .orderBy("date", "desc")
+        .get().then(snapshot => {
+          let html = "";
+          snapshot.forEach(doc => {
+            let data = doc.data();
+            html += `<li>${data.invoiceId} - ${data.patientName} - ₹${data.total}</li>`;
+          });
+          document.getElementById("invoiceList").innerHTML = html;
+        });
+    }
+
+    auth.onAuthStateChanged(user => { if (user) loadInvoices(); });
+  </script>
+</body>
+</html>
