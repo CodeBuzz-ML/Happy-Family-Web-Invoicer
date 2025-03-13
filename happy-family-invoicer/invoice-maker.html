@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Family Invoice Maker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+</head>
+
+<body class="bg-gray-100 p-6">
+    <style>
+        body{
+            background: linear-gradient(to right, #38ADAE, #CD295A);;
+        }
+    </style>
+    <!-- HTML Page -->
+    <div class="max-w-2xl mx-auto bg-white p-6 shadow-lg rounded-lg">
+        <!-- Clinic Logo -->
+        <img src="https://raw.githubusercontent.com/CodeBuzz-ML/Happy-Family-Web-Invoicer/refs/heads/main/happy-family-invoicer/Happy%20Family%20Logo/Document%20identity%20.png" 
+             alt="Clinic Logo" class="w-full mb-6">
+
+        <h1 class="text-2xl font-semibold mb-4 text-gray-700">Generate Invoice</h1>
+
+        <!-- Invoice Form -->
+        <form id="invoiceForm" class="space-y-4">
+            <div>
+                <label class="block text-gray-600">Patient Name</label>
+                <input type="text" id="patientName" class="w-full p-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-600">Invoice ID</label>
+                <input type="text" id="invoiceId" class="w-full p-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-600">Medicine Charges (₹)</label>
+                <input type="number" id="medicineCharges" class="w-full p-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-600">Consultation Charges (₹)</label>
+                <input type="number" id="consultationCharges" class="w-full p-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-600">Extra Item Charges (₹) (Optional)</label>
+                <input type="number" id="extraCharges" class="w-full p-2 border rounded">
+            </div>
+            <button type="button" id="generateInvoiceBtn" 
+                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">
+                Generate Invoice PDF
+            </button>
+        </form>
+    </div>
+    <!-- Script for Making the Code -->
+    <script>
+        document.getElementById("generateInvoiceBtn").addEventListener("click", generateInvoice);
+
+        function generateInvoice() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Get Form Data
+            const patientName = document.getElementById("patientName").value || "N/A";
+            const invoiceId = document.getElementById("invoiceId").value || "00001";
+            const medicineCharges = Number(document.getElementById("medicineCharges").value) || 0;
+            const consultationCharges = Number(document.getElementById("consultationCharges").value) || 0;
+            const extraCharges = Number(document.getElementById("extraCharges").value) || 0;
+            const grandTotal = medicineCharges + consultationCharges + extraCharges;
+
+            // Ensure Numbers are Properly Converted to Strings (Fix for superscript issue)
+            const medicineText = `Medicine Charges ₹ ${medicineCharges.toFixed(2)}`;
+            const consultationText = `Consultation Charges ₹ ${consultationCharges.toFixed(2)}`;
+            const extraText = `Extra Item Charges ₹ ${extraCharges.toFixed(2)}`;
+            const totalText = `Grand Total ₹ ${grandTotal.toFixed(2)}`;
+
+            // Add Clinic Logo (Full-Width)
+            const imgData = 'https://raw.githubusercontent.com/CodeBuzz-ML/Happy-Family-Web-Invoicer/refs/heads/main/happy-family-invoicer/Happy%20Family%20Logo/Document%20identity%20.png';
+            const imgWidth = doc.internal.pageSize.getWidth() - 20; // Full width with margin
+            const imgHeight = (imgWidth / 736) * 158; 
+            const imgX = (doc.internal.pageSize.getWidth() - imgWidth) / 2; // Center the image
+            const imgY = 10;
+            doc.addImage(imgData, 'PNG', imgX, 10, imgWidth, imgHeight);
+
+            // Invoice Details
+            doc.setFontSize(12);
+            doc.text(`Invoice ID: ${invoiceId}`, 10, 50);
+            doc.text(`Patient Name: ${patientName}`, 10, 60);
+
+            // Divider Line
+            doc.line(10, 65, 200, 65);
+
+            // Charges Breakdown (Fix Applied)
+            doc.text(medicineText, 10, 75);
+            doc.text(consultationText, 10, 85);
+            doc.text(extraText, 10, 95);
+
+            // Divider Line
+            doc.line(10, 105, 200, 105);
+
+            // Grand Total
+            doc.setFontSize(14);
+            doc.text(totalText, 10, 115);
+
+            // Save PDF
+            doc.save(`Invoice_${patientName}.pdf`);
+        }
+    </script>
+
+</body>
+</html>
