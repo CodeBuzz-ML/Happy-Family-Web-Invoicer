@@ -84,8 +84,8 @@
         }
     </style>
     <div class="card">
-        <img src="https://raw.githubusercontent.com/CodeBuzz-ML/Happy-Family-Web-Invoicer/refs/heads/main/happy-family-invoicer/Happy%20Family%20Logo/Document%20identity%20.png" 
-             alt="Clinic Logo" class="w-full mb-6">
+        <img src="Happy Family Logo/Happy Family Logo.png"
+        alt="Clinic Logo" class="w-full mb-6">
         <h2>Doctor's Note Maker</h2>
         <form id="noteForm">
             <div class="form-group">
@@ -123,7 +123,7 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
-            const imgData = 'https://raw.githubusercontent.com/CodeBuzz-ML/Happy-Family-Web-Invoicer/refs/heads/main/happy-family-invoicer/Happy%20Family%20Logo/Document%20identity%20.png';
+            const imgData = 'https://raw.githubusercontent.com/CodeBuzz-ML/Happy-Family-Web-Invoicer/refs/heads/main/Happy%20Family%20Logo/Document%20identity%20.png';
             const imgWidth = doc.internal.pageSize.getWidth() - 20; // Full width with margin
             const imgHeight = (imgWidth / 736) * 158; 
             const imgX = (doc.internal.pageSize.getWidth() - imgWidth) / 2; // Center the image
