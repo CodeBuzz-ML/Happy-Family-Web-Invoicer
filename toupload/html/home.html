@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinic Home</title>
+  <link rel="stylesheet" href="../css/home.css" />
+ <script src="../js/auth.js"></script>
+ <script defer src="../js/home.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Banner -->
+    <header class="banner">
+      <img src="../assets/banner-logo.png" alt="Clinic Logo" class="banner-logo" />
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h2>Welcome to Clinic Management</h2>
+
+      <div class="card-container">
+        <!-- Invoice -->
+        <div class="card" onclick="navigateTo('invoice.html')">
+          <img src="https://img.icons8.com/fluency/96/invoice.png" alt="Invoice" />
+          <h3>Invoice Maker</h3>
+        </div>
+
+        <!-- Doctor's Note -->
+        <div class="card" onclick="navigateTo('doctor-note.html')">
+            <img src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-medical-book-medical-and-healthcare-flaticons-flat-flat-icons.png" alt="Doctor Note" />
+            <h3>Doctor’s Note</h3>
+          </div>
+
+
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>
